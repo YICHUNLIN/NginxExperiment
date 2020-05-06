@@ -1,0 +1,1 @@
+docker build -t machine . --no-cache
