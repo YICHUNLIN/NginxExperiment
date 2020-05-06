@@ -7,3 +7,24 @@
 
 
 
+## 使用方法
+
+1. 建置 server
+
+```shell
+$ cd server
+$ ./build
+```
+
+2. 在 docker-compose.yml同目錄下
+
+```shell
+$ docker-compose up -d
+```
+
+3. 測試
+
+```shell
+cd runner
+node index.js
+```
