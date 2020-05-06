@@ -3,11 +3,47 @@ version: '3.1'
 services:
 
   proxy:
-    image: nginx
+    image: nginx:stable
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/log:/var/log/nginx
-      - ./nginx/ssl:/etc/ssl
     ports:
       - 80:80
       - 443:443
+    links:
+      - m1
+      - m2
+      - m3
+      - m4
+      - m5
+  m1:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_1'
+  m2:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_2'
+  m3:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_3'
+  m4:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_4'
+  m5:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_5'
+  
