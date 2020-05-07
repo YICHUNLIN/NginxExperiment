@@ -9,8 +9,18 @@ module.exports = (server, option) => {
     option = option || {};
     const ws = io(server, option);
     ws.adapter(adapter);
-    ws.origins('*:*')
+    ws.origins('*:*');
     console.log('web socket is running', `Redis ${connect_redis}:${redis_port}`);
+
+    ws.use((socket, next) => {
+      let token = socket.handshake.query.auth_token;
+      if (token && (token == '123a456')) {
+        return next();
+      }
+      
+      return next(new Error('authentication error'));
+    });
+
     ws.on('connection', (socket) => {
       socket.emit('Init_Ack', { status: 'INIT', from:  selfName});
       const id = `${selfName}:${++count}`;
