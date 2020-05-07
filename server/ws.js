@@ -9,19 +9,28 @@ module.exports = (server, option) => {
     option = option || {};
     const ws = io(server, option);
     ws.adapter(adapter);
-    ws.origins('*:*')
+    ws.origins('*:*');
     console.log('web socket is running', `Redis ${connect_redis}:${redis_port}`);
+
+    ws.use((socket, next) => {
+      let token = socket.handshake.query.auth_token;
+      if (token && (token == '123a456')) {
+        return next();
+      }
+      
+      return next(new Error('authentication error'));
+    });
+
     ws.on('connection', (socket) => {
       socket.emit('Init_Ack', { status: 'INIT', from:  selfName});
-      socket.emit('login success', {
-        id: `${selfName}:${++count}`
-      });
+      const id = `${selfName}:${++count}`;
+      socket.emit('login success', { id });
       socket.on('dologin', (data) => {
         socket.user_info = data;
+        socket.user_info.id = id;
         socket.broadcast.emit('user joined', socket.user_info);
       });
       socket.on('disconnect', (socket) => {
-        ws.broadcast.emit('user leave', {info: socket.user_info, current: --count});
       });
     });
     return ws;

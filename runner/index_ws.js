@@ -5,7 +5,8 @@ for (let i = 0; i < 10; i++) {
     const socket = io('http://api.kmn.tw', {
         path: '/socket.io',
         transports: ['websocket'],
-        autoConnect: true
+        autoConnect: true,
+        query: `auth_token=123a456`
     });
     socket.on('Init_Ack', (data) => {
         console.log(data);
@@ -30,5 +31,9 @@ for (let i = 0; i < 10; i++) {
 
     socket.on('login success', data => {
         console.log(name, 'login success',data);
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error(`Connection error: ${error}`);
     });
 }
