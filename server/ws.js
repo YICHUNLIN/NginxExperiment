@@ -4,7 +4,8 @@ var count = 0;
 const selfName = process.env.name;
 const connect_redis = process.env.connect_redis;
 const redis_port = process.env.redis_port;
-const adapter = require('socket.io-redis')({host: connect_redis, port: redis_port});
+const redis_pwd = process.env.redis_pwd;
+const adapter = require('socket.io-redis')({host: connect_redis, port: redis_port, auth_pass: redis_pwd});
 module.exports = (server, option) => {
     option = option || {};
     const ws = io(server, option);
