@@ -8,7 +8,8 @@
             const name = `web_1`;
             const socket = io('http://api.kmn.tw', {
                 transports: ['websocket'],
-                authConnect: true
+                authConnect: true,
+                query: `auth_token=123a456`
             });
             socket.on('Init_Ack', (data) => {
                 console.log(data);
