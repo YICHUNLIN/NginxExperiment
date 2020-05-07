@@ -5,13 +5,34 @@
     </head>
     <body>
         <script>
+            const name = `web_1`;
             const socket = io('http://api.kmn.tw', {
                 transports: ['websocket'],
                 authConnect: true
             });
             socket.on('Init_Ack', (data) => {
                 console.log(data);
-                socket.emit('hello', { my: 'ooxx' });
+                socket.emit('dologin', { name });
+            });
+            
+            socket.on('hello_ack', msg => {
+                console.log(msg);
+            });
+
+            socket.on('disconnect', (msg) => {
+                console.log('disconnect', name);
+            })
+
+            socket.on('user joined', data => {
+                console.log(name,'user joined', data);
+            });
+
+            socket.on('user leave', data => {
+                console.log(name,'user leave', data);
+            });
+
+            socket.on('login success', data => {
+                console.log(name, 'login success',data);
             });
         </script>
     </body>
