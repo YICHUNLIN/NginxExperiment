@@ -6,7 +6,7 @@ const workThread = () => {
     setInterval(()=>{
         const a = (Math.random() * 100 + 1);
         const b = (Math.random() * 100 + 2);
-        request.get(`http://localhost/plus/a/${a}/b/${b}`, function(error, body) {
+        request.get(`http://api.kmn.tw/plus/a/${a}/b/${b}`, function(error, body) {
             parentPort.postMessage({id: body.from, woker: workerData.name});
         });
     }, workerData.interval);

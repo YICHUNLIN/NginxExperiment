@@ -2,11 +2,67 @@ version: '3.1'
 
 services:
 
+  redis:
+    image: redis:alpine
+    expose:
+      - 6379
+  m1:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_1'
+      connect_redis: 'redis'
+      redis_port: 6379
+    links:
+      - redis
+  m2:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_2'
+      connect_redis: 'redis'
+      redis_port: 6379
+    links:
+      - redis
+  m3:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_3'
+      connect_redis: 'redis'
+      redis_port: 6379
+    links:
+      - redis
+  m4:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_4'
+      connect_redis: 'redis'
+      redis_port: 6379
+    links:
+      - redis
+  m5:
+    image: machine
+    restart: always
+    environment:
+      PORT: 80
+      name: 'machine_5'
+      connect_redis: 'redis'
+      redis_port: 6379
+    links:
+      - redis
+
   proxy:
     image: nginx:stable
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/log:/var/log/nginx
+      - ./nginx/www:/var/www/html/ws_test
     ports:
       - 80:80
       - 443:443
@@ -16,34 +72,5 @@ services:
       - m3
       - m4
       - m5
-  m1:
-    image: machine
-    restart: always
-    environment:
-      PORT: 80
-      name: 'machine_1'
-  m2:
-    image: machine
-    restart: always
-    environment:
-      PORT: 80
-      name: 'machine_2'
-  m3:
-    image: machine
-    restart: always
-    environment:
-      PORT: 80
-      name: 'machine_3'
-  m4:
-    image: machine
-    restart: always
-    environment:
-      PORT: 80
-      name: 'machine_4'
-  m5:
-    image: machine
-    restart: always
-    environment:
-      PORT: 80
-      name: 'machine_5'
+      
   
